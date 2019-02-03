@@ -1,4 +1,4 @@
-const tagNames = ['tag', 'leaf', 'key', 'car', 'cake', 'star'];
+const tagNames = ['tag', 'leaf', 'key', 'car', 'birthday-cake', 'star'];
 
 // duplicates all items in an array
 function duplicateItems(arr) {
@@ -17,7 +17,12 @@ function randomizeArray(arr) {
 	let randomArray = [];
 	while (currentIndex > 0) {
 		let randomNum = Math.floor(Math.random() * currentIndex);
-		randomArray.push(arrCopy[randomNum]);
+		randomArray.unshift({
+			name: arrCopy[randomNum],
+			id: currentIndex - 1,
+			solved: false,
+			active: false
+		});
 		arrCopy.splice(randomNum, 1);
 		currentIndex--;
 	}
