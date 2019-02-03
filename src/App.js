@@ -7,13 +7,26 @@ import './App.scss';
 class App extends Component {
 	state = {
 		counter: 0,
-		selected: null
+		selected: null,
+		completedCount: 0,
+		completedGame: false
 	};
 
 	componentDidMount() {
 		this.setState({
 			cardList: data
 		});
+	}
+
+	componentDidUpdate() {
+		if (
+			this.state.completedCount === this.state.cardList.length / 2 &&
+			!this.state.completedGame
+		) {
+			this.setState({
+				completedGame: true
+			});
+		}
 	}
 
 	renderCards = () => {
@@ -42,18 +55,23 @@ class App extends Component {
 				cardList: dataCopy
 			});
 		} else {
+			// hit
 			if (dataCopy[this.state.selected].name === tagName) {
 				dataCopy[this.state.selected].solved = true;
 				dataCopy[index].solved = true;
 				this.setState({
 					selected: null,
-					cardList: dataCopy
+					cardList: dataCopy,
+					counter: this.state.counter + 1,
+					completedCount: this.state.completedCount + 1
 				});
 			} else {
+				// miss
 				dataCopy[this.state.selected].active = false;
 				this.setState({
 					selected: null,
-					cardList: dataCopy
+					cardList: dataCopy,
+					counter: this.state.counter + 1
 				});
 			}
 		}
@@ -62,7 +80,10 @@ class App extends Component {
 	render() {
 		return (
 			<div className="">
-				<Counter counter={this.state.counter} />
+				<Counter
+					counter={this.state.counter}
+					complete={this.state.completedGame}
+				/>
 				<div className="game">{this.renderCards()}</div>
 			</div>
 		);
