@@ -1,0 +1,38 @@
+.board-row:after {
+    clear: both;
+    content: "";
+    display: table;
+}
+
+.status {
+    margin-bottom: 10px;
+}
+
+.card {
+    background: #fff;
+    border: 1px solid #ccc;
+    float: left;
+    font-size: 32px;
+    font-weight: bold;
+    line-height: 34px;
+    height: 115px;
+    margin-right: 10px;
+    margin-top: 10px;
+    padding: 0;
+    text-align: center;
+    width: 85px;
+    cursor: pointer;
+}
+
+.card:focus {
+    outline: none;
+}
+
+.kbd-navigation .card:focus {
+    background: #ddd;
+}
+
+.game {
+    display: flex;
+    flex-direction: row;
+}
