@@ -3,7 +3,6 @@ import './Card.scss';
 
 export default function Card(props) {
 	if (props.correct) {
-		console.log('rendering right');
 		return <div className={`card fas fa-${props.tag} right`} />;
 	} else if (props.active && props.wrong) {
 		return <div className={`card fas fa-${props.tag} wrong`} />;

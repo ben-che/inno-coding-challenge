@@ -1,5 +1,5 @@
 ### To access the app:
-Navigate to: 
+Navigate to: https://peaceful-engelbart-326e18.netlify.com/
 
 ### To run locally:
 1. `git clone` the repo
