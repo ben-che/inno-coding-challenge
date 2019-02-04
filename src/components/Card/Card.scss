@@ -28,6 +28,7 @@
     cursor: pointer;
     border-radius: 5px;
     transition: all 0.5s;
+    background-color: rgba(199, 230, 255, 0.8);
 
     &:hover {
         transform: scale(1.05);
@@ -35,9 +36,53 @@
     }
 }
 
+.wrong {
+    background-color: white;
+    transform: scale(1.05);
+    border: 1px solid red;
+    cursor: default;
+}
+
+.right {
+    background-color: transparent;
+    transform: scale(1.05);
+    animation: animate-right 1.5s linear 0s 1 forwards;
+}
+
+@keyframes animate-right {
+    0% {
+        background-color: transparent;
+        border: 1px solid white;
+    }
+    25% {
+        background-color: rgba(1, 78, 1, 0.2);
+        border: 1px solid rgb(1, 78, 1);
+    }
+    50% {
+        background-color: transparent;
+        border: 1px solid white;
+    }
+    75% {
+        background-color: rgba(1, 78, 1, 0.2);
+        border: 1px solid rgb(1, 78, 1);
+    }
+    100% {
+        background-color: transparent;
+        border: 1px solid #ccc;
+    }
+}
+
 .active {
+    background-color: white;
     transform: scale(1.05);
     border: 1px solid green;
+    cursor: default;
+}
+
+.loading {
+    transform: scale(1) !important;
+    box-shadow: none !important;
+    cursor: default;
 }
 
 .solved {

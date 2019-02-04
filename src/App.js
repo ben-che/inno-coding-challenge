@@ -9,7 +9,8 @@ class App extends Component {
 		counter: 0,
 		selected: null,
 		completedCount: 0,
-		completedGame: false
+		completedGame: false,
+		disableClick: false
 	};
 
 	componentDidMount() {
@@ -40,6 +41,9 @@ class App extends Component {
 						active={card.active}
 						key={card.id}
 						handleCardCheck={this.handleCardCheck}
+						wrong={card.wrong}
+						correct={card.correct}
+						loading={this.state.disableClick}
 					/>
 				);
 			});
@@ -48,31 +52,69 @@ class App extends Component {
 
 	handleCardCheck = (tagName, index) => {
 		let dataCopy = this.state.cardList;
-		if (this.state.selected === null) {
-			dataCopy[index].active = true;
-			this.setState({
-				selected: index,
-				cardList: dataCopy
-			});
-		} else {
-			// hit
-			if (dataCopy[this.state.selected].name === tagName) {
-				dataCopy[this.state.selected].solved = true;
-				dataCopy[index].solved = true;
+		if (!this.state.disableClick) {
+			if (this.state.selected === null) {
+				dataCopy[index].active = true;
 				this.setState({
-					selected: null,
-					cardList: dataCopy,
-					counter: this.state.counter + 1,
-					completedCount: this.state.completedCount + 1
+					selected: index,
+					cardList: dataCopy
 				});
 			} else {
-				// miss
-				dataCopy[this.state.selected].active = false;
-				this.setState({
-					selected: null,
-					cardList: dataCopy,
-					counter: this.state.counter + 1
-				});
+				// hit
+				if (dataCopy[this.state.selected].name === tagName) {
+					dataCopy[this.state.selected].active = true;
+					dataCopy[index].active = true;
+					dataCopy[this.state.selected].correct = 1;
+					dataCopy[index].correct = 1;
+					this.setState(
+						{
+							cardList: dataCopy,
+							counter: this.state.counter + 1,
+							disableClick: true
+						},
+						() => {
+							setTimeout(() => {
+								dataCopy[this.state.selected].solved = true;
+								dataCopy[index].solved = true;
+								dataCopy[this.state.selected].active = false;
+								dataCopy[index].active = false;
+								dataCopy[this.state.selected].correct = false;
+								dataCopy[index].correct = false;
+								return this.setState({
+									cardList: dataCopy,
+									selected: null,
+									disableClick: false,
+									completedCount: this.state.completedCount + 1
+								});
+							}, 1500);
+						}
+					);
+				} else {
+					// miss
+					dataCopy[index].active = true;
+					dataCopy[this.state.selected].wrong = true;
+					dataCopy[index].wrong = true;
+					this.setState(
+						{
+							cardList: dataCopy,
+							counter: this.state.counter + 1,
+							disableClick: true
+						},
+						() => {
+							setTimeout(() => {
+								dataCopy[this.state.selected].active = false;
+								dataCopy[index].active = false;
+								dataCopy[this.state.selected].wrong = false;
+								dataCopy[index].wrong = false;
+								this.setState({
+									cardList: dataCopy,
+									selected: null,
+									disableClick: false
+								});
+							}, 500);
+						}
+					);
+				}
 			}
 		}
 	};
